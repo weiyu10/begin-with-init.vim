@@ -3,7 +3,6 @@
 call plug#begin()
 
 Plug 'airblade/vim-gitgutter'
-Plug 'Chiel92/vim-autoformat'
 Plug 'easymotion/vim-easymotion'
 Plug 'farmergreg/vim-lastplace'
 Plug 'jiangmiao/auto-pairs'
@@ -16,22 +15,17 @@ Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
 Plug 'itchyny/lightline.vim'
-Plug 'w0rp/ale'
 Plug '907th/vim-auto-save'
-
-"" fuzzy finder
-
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
-
-"" language
-
 Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-"" color
-
 Plug 'cocopon/iceberg.vim'
+Plug 'Shougo/echodoc.vim'
 
 call plug#end()
 
@@ -53,6 +47,7 @@ set ttyfast
 set visualbell
 set wildmenu
 set wildmode=full
+set updatetime=100
 filetype plugin indent on
 autocmd Rc BufWinEnter * set mouse=
 
@@ -87,70 +82,64 @@ set splitright
 set wrap
 autocmd Rc BufEnter * EnableStripWhitespaceOnSave
 
+" plugin settings
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_start_length = 1
+let g:AutoPairsMapCh = 0
+let g:AutoPairsMapCR = 0
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
+let g:auto_save_silent = 1
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'cpp': ['clangd', '-background-index',],
+    \ 'c': ['clangd', '-background-index',],
+    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ }
+let g:lightline = { 'colorscheme': 'iceberg' }
+colorscheme iceberg
+highlight Normal      ctermbg=none
+highlight NonText     ctermbg=none
+highlight EndOfBuffer ctermbg=none
+highlight VertSplit   cterm=none ctermfg=240 ctermbg=240
+set cmdheight=2
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'signature'
+set signcolumn=yes
+
+
 "" keymaps
 
 let g:mapleader = "\<space>"
-
 nnoremap <expr> j v:count ? 'j' : 'gj'
 nnoremap <expr> k v:count ? 'k' : 'gk'
 nnoremap gj j
 nnoremap gk k
 nnoremap <esc><esc> :nohlsearch<cr>
 nnoremap Y y$
-
-
-" plugin settings
-
-"" deoplete
-
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 1
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
-
-
-"" auto-pairs
-
-let g:AutoPairsMapCh = 0
-let g:AutoPairsMapCR = 0
-
-
-"" fzf
-
 nnoremap <leader>b :Buffers<cr>
 nnoremap <leader>c :History:<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>g :GFiles<cr>
 nnoremap <leader>h :History<cr>
-nnoremap <leader>l :Lines<cr>
 nnoremap <leader>m :Maps<cr>
 nnoremap <leader>r :Ag<cr>
+nnoremap <leader>ld :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
+nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 
-
-"" autoformat
-
-autocmd Rc BufEnter,BufWinEnter,BufRead,BufNewFile *
-			\ if &filetype == "" | set filetype=text | endif
-autocmd Rc BufWrite * :Autoformat
-
-
-"" auto-save
-
-let g:auto_save = 1
-let g:auto_save_in_insert_mode = 0
-let g:auto_save_silent = 1
-
-
-"" lightline
-
-let g:lightline = { 'colorscheme': 'iceberg' }
-
-
-"" colorscheme
-
-colorscheme iceberg
-
-highlight Normal      ctermbg=none
-highlight NonText     ctermbg=none
-highlight EndOfBuffer ctermbg=none
-highlight VertSplit   cterm=none ctermfg=240 ctermbg=240
+let g:LanguageClient_diagnosticsEnable = 0
