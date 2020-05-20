@@ -84,14 +84,27 @@ autocmd Rc BufEnter * EnableStripWhitespaceOnSave
 
 " plugin settings
 
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_start_length = 1
 let g:AutoPairsMapCh = 0
 let g:AutoPairsMapCR = 0
 let g:auto_save = 1
 let g:auto_save_in_insert_mode = 0
 let g:auto_save_silent = 1
 set hidden
+let g:lightline = { 'colorscheme': 'iceberg' }
+colorscheme iceberg
+highlight Normal      ctermbg=none
+highlight NonText     ctermbg=none
+highlight EndOfBuffer ctermbg=none
+highlight VertSplit   cterm=none ctermfg=240 ctermbg=240
+
+" config LSP
+
+set cmdheight=2
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'signature'
+set signcolumn=yes
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_start_length = 1
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
@@ -101,17 +114,6 @@ let g:LanguageClient_serverCommands = {
     \ 'c': ['clangd', '-background-index',],
     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
     \ }
-let g:lightline = { 'colorscheme': 'iceberg' }
-colorscheme iceberg
-highlight Normal      ctermbg=none
-highlight NonText     ctermbg=none
-highlight EndOfBuffer ctermbg=none
-highlight VertSplit   cterm=none ctermfg=240 ctermbg=240
-set cmdheight=2
-let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'signature'
-set signcolumn=yes
-
 
 function SetLSPShortcuts()
   nnoremap <leader>ld :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
@@ -125,6 +127,13 @@ function SetLSPShortcuts()
   nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
   nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 endfunction()
+let g:LanguageClient_diagnosticsEnable = 0
+
+augroup LSP
+  autocmd!
+  autocmd FileType cpp,c call SetLSPShortcuts()
+augroup END
+
 
 "" keymaps
 
@@ -145,9 +154,3 @@ nnoremap <leader>h :History<cr>
 nnoremap <leader>m :Maps<cr>
 nnoremap <leader>r :Ag<cr>
 
-let g:LanguageClient_diagnosticsEnable = 0
-
-augroup LSP
-  autocmd!
-  autocmd FileType cpp,c call SetLSPShortcuts()
-augroup END
