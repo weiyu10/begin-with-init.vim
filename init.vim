@@ -113,6 +113,19 @@ let g:echodoc#type = 'signature'
 set signcolumn=yes
 
 
+function SetLSPShortcuts()
+  nnoremap <leader>ld :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
+  nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+  nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+  nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+  nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+  nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+  nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+  nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+  nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
+  nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+endfunction()
+
 "" keymaps
 
 let g:mapleader = "\<space>"
@@ -131,15 +144,10 @@ nnoremap <leader>g :GFiles<cr>
 nnoremap <leader>h :History<cr>
 nnoremap <leader>m :Maps<cr>
 nnoremap <leader>r :Ag<cr>
-nnoremap <leader>ld :call LanguageClient#textDocument_definition({'gotoCmd': 'split'})<CR>
-nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 
 let g:LanguageClient_diagnosticsEnable = 0
+
+augroup LSP
+  autocmd!
+  autocmd FileType cpp,c call SetLSPShortcuts()
+augroup END
