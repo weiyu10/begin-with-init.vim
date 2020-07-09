@@ -14,6 +14,8 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-surround'
+Plug 'weirongxu/plantuml-previewer.vim'
+Plug 'tyru/open-browser.vim'
 Plug 'itchyny/lightline.vim'
 Plug '907th/vim-auto-save'
 Plug 'autozimu/LanguageClient-neovim', {
@@ -26,6 +28,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'cocopon/iceberg.vim'
 Plug 'Shougo/echodoc.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -96,6 +99,7 @@ highlight Normal      ctermbg=none
 highlight NonText     ctermbg=none
 highlight EndOfBuffer ctermbg=none
 highlight VertSplit   cterm=none ctermfg=240 ctermbg=240
+let g:plantuml_previewer#plantuml_jar_path = '/Users/weiyu/Desktop/tmp/plantuml-style-c4/plantuml.jar'
 
 " config LSP
 
