@@ -62,10 +62,10 @@ autocmd Rc BufWinEnter * set mouse=
 set autoindent
 set list
 set shiftround
-set shiftwidth=2
+set shiftwidth=4
 set smartindent
 set smarttab
-set tabstop=2
+set tabstop=4
 
 "" appearance
 
