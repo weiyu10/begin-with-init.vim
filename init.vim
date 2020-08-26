@@ -142,6 +142,7 @@ augroup LSP
 augroup END
 
 "" golang
+set autowrite
 let g:go_fold_enable = ['import']
 let g:go_list_type = "quickfix"
 let g:go_test_timeout = '10s'

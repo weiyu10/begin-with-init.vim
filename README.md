@@ -88,6 +88,7 @@ You may also check other key mappings from the plugins.
 
 Edit your own `~/.config/nvim/init.vim`!
 
+## Golang best practice
 ## License
 
 [MIT](LICENSE)
