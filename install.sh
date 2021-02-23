@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eo pipefail
+#set -eo pipefail
 
 function install_nvim() {
     wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage

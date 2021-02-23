@@ -150,9 +150,12 @@ let g:go_fmt_command = "goimports"
 let g:go_highlight_fields = 1
 let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_command='golangci-lint'
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_deadline = "5s"
+"let g:go_metalinter_deadline = "5s"
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+"let g:go_metlinter_command = "golangci-lint"
+
 
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
@@ -161,6 +164,7 @@ map <C-m> :cprevious<CR>
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
 autocmd FileType go nmap <Leader>gc <Plug>(go-coverage-toggle)
+autocmd FileType go nmap <Leader>gh <Plug>(go-lint)
 " run :GoBuild or :GoTestCompile based on the go file
 function! s:build_go_files()
   let l:file = expand('%')
